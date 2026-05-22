@@ -229,6 +229,14 @@ function CardItem({
 export default function StackingCards() {
   const outerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const [yValues, setYValues] = useState<number[]>(
     projects.map((_, i) => (i === 0 ? 0 : 9999))
@@ -290,31 +298,35 @@ export default function StackingCards() {
 
   const sectionVh = projects.length * 100;
 
-  /* ── Reduced motion: static list ── */
-  if (prefersReducedMotion) {
+  /* ── Mobile / reduced motion: static scrollable card list ── */
+  if (prefersReducedMotion || isMobile) {
     return (
-      <section id="proof-of-work" className="px-6 md:px-12 py-24">
+      <section id="proof-of-work" className="px-5 md:px-12 py-16 md:py-24">
         <p className="text-[11px] tracking-widest text-[#F1EFE8] uppercase mb-3 flex items-center gap-2"
           style={{ fontFamily: "var(--font-mono)" }}>
           <span className="w-[5px] h-[5px] rounded-full bg-[#00D4FF] inline-block" />
           Proof of Work
         </p>
-        <h2 className="text-[#F1EFE8] text-[64px] md:text-[96px] leading-none mb-16"
+        <h2 className="text-[#F1EFE8] text-[48px] md:text-[96px] leading-none mb-10 md:mb-16"
           style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
           WHAT I{" "}
           <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontWeight: 700 }}>Build.</span>
         </h2>
-        <div className="flex flex-col gap-8 max-w-5xl mx-auto">
+        <div className="flex flex-col gap-5 max-w-5xl mx-auto">
           {projects.map((project) => (
-            <div key={project.index} className="rounded-[20px] border border-white/[0.06] p-10"
+            <div key={project.index} className="rounded-[20px] border border-white/[0.06] p-6 md:p-10"
               style={{ background: "#141412" }}>
               <p className="text-[10px] tracking-[0.2em] uppercase text-[#00D4FF] mb-3"
                 style={{ fontFamily: "var(--font-body)" }}>{project.category}</p>
-              <h3 className="text-[#F1EFE8] font-display text-[40px] leading-tight mb-3">{project.title}</h3>
-              <p className="text-[#F1EFE8] text-[14px] leading-[1.7] mb-4"
+              <h3 className="text-[#F1EFE8] text-[24px] md:text-[40px] leading-tight mb-2"
+                style={{ fontFamily: "var(--font-display)" }}>{project.title}</h3>
+              <p className="text-[#F1EFE8]/70 text-[13px] md:text-[14px] leading-[1.7] mb-4"
                 style={{ fontFamily: "var(--font-body)" }}>{project.subtitle}</p>
-              <p className="font-display text-[48px] text-[#F1EFE8]">{project.metric}</p>
-              <p className="text-[10px] tracking-[0.18em] uppercase text-[#F1EFE8]"
+              <div className="flex items-baseline gap-2 mb-1">
+                <p className="text-[#F1EFE8] text-[40px] md:text-[48px] leading-none"
+                  style={{ fontFamily: "var(--font-display)" }}>{project.metric}</p>
+              </div>
+              <p className="text-[10px] tracking-[0.18em] uppercase text-[#00D4FF]"
                 style={{ fontFamily: "var(--font-body)" }}>{project.metricLabel}</p>
             </div>
           ))}

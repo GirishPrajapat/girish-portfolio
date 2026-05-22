@@ -164,7 +164,7 @@ export function About() {
                 color: "rgba(241,239,232,0.2)",
                 marginTop: "8px",
               }}>
-                first-year student.
+                second year student.
               </span>
             </motion.h2>
 

@@ -254,7 +254,7 @@ export function HeroSection() {
               id="hero-heading"
               className="leading-tight text-[#F1EFE8]"
               style={{
-                fontSize: 'clamp(52px, 7vw, 100px)',
+                fontSize: 'clamp(36px, 7vw, 100px)',
                 fontFamily: 'var(--font-serif)',
                 fontStyle: 'italic',
                 fontWeight: 700,
@@ -278,7 +278,7 @@ export function HeroSection() {
             <div id="hero-ctas" className="mt-10 flex flex-wrap gap-4">
               {/* Primary — cyan fill */}
               <Link
-                href="#work"
+                href="#proof-of-work"
                 style={{
                   background: '#00D4FF',
                   color: '#0E0E0D',
@@ -455,7 +455,7 @@ export function HeroSection() {
         className="bg-[#0E0E0D]"
         style={{ paddingTop: '100px', paddingBottom: '40px' }}
       >
-        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
           {/* Line 1 — "I Automate [AI image] Thinking." */}
           <div style={{
@@ -468,7 +468,7 @@ export function HeroSection() {
           }}>
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 4.5vw, 64px)',
+              fontSize: 'clamp(22px, 4.5vw, 64px)',
               lineHeight: 0.9,
               color: '#F1EFE8',
               letterSpacing: '-0.01em',
@@ -496,7 +496,7 @@ export function HeroSection() {
 
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 4.5vw, 64px)',
+              fontSize: 'clamp(22px, 4.5vw, 64px)',
               lineHeight: 0.9,
               color: '#F1EFE8',
               letterSpacing: '-0.01em',
@@ -517,7 +517,7 @@ export function HeroSection() {
           }}>
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 4.5vw, 64px)',
+              fontSize: 'clamp(22px, 4.5vw, 64px)',
               lineHeight: 0.9,
               color: '#444441',
               letterSpacing: '-0.01em',
@@ -549,7 +549,7 @@ export function HeroSection() {
 
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 4.5vw, 64px)',
+              fontSize: 'clamp(22px, 4.5vw, 64px)',
               lineHeight: 0.9,
               color: '#444441',
               letterSpacing: '-0.01em',
@@ -568,7 +568,7 @@ export function HeroSection() {
             display: 'flex',
             justifyContent: 'center',
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(32px, 4.5vw, 64px)',
+            fontSize: 'clamp(22px, 4.5vw, 64px)',
             lineHeight: 0.9,
             color: '#2C2C2A',
             letterSpacing: '-0.01em',

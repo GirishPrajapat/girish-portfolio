@@ -77,7 +77,7 @@ export function CustomCursor() {
       cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, []);
+  }, [visible]);
 
   if (!visible) return null;
 

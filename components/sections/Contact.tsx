@@ -27,7 +27,7 @@ export function Contact() {
           <motion.h2
             variants={fadeUp}
             className="text-[#F1EFE8] leading-none mb-6"
-            style={{ fontSize: "clamp(64px, 12vw, 160px)", fontFamily: "var(--font-display)" }}
+            style={{ fontSize: "clamp(44px, 12vw, 160px)", fontFamily: "var(--font-display)" }}
           >
             Let&apos;s build
             <br />
@@ -61,7 +61,7 @@ export function Contact() {
           {/* Social links */}
           <motion.div
             variants={fadeUp}
-            className="flex items-center justify-center gap-8 mt-24"
+            className="flex items-center justify-center gap-8 mt-12 md:mt-24"
           >
             {socials.map((s) => (
               <a

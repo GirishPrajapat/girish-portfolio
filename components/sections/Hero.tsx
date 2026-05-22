@@ -66,7 +66,7 @@ export function Hero() {
             className="mt-10 flex flex-wrap gap-4"
           >
             <a
-              href="#work"
+              href="#proof-of-work"
               className="bg-[#F1EFE8] text-[#0E0E0D] px-8 py-3.5 text-sm font-medium tracking-wider hover:bg-[#00D4FF] transition-colors duration-300"
             >
               See My Work →

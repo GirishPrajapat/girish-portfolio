@@ -78,9 +78,9 @@ function CardItem({
       style={{
         position:   "absolute",
         top:        CARD_TOP,
-        left:       40,
-        right:      40,
-        height:     `calc(100vh - ${CARD_TOP + 220}px)`,
+        left:       12,
+        right:      12,
+        height:     `calc(100vh - ${CARD_TOP + 120}px)`,
         zIndex:     i + 1,
         transform:  `translateY(${translateY}px)`,
         willChange: "transform",
@@ -91,6 +91,7 @@ function CardItem({
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        className="flex flex-col sm:flex-row"
         style={{
           height: "100%",
           maxWidth: "984px",
@@ -100,19 +101,20 @@ function CardItem({
           border: hovered ? "1px solid rgba(0,212,255,0.55)" : "1px solid rgba(0,212,255,0.1)",
           boxShadow: hovered ? "0 0 24px rgba(0,212,255,0.18), inset 0 0 10px rgba(0,212,255,0.04)" : "none",
           overflow: "hidden",
-          display: "flex",
           transition: "border-color 0.3s ease, box-shadow 0.3s ease",
           position: "relative",
         }}
       >
         {/* LEFT: text content */}
-        <div style={{
-          flex: "0 0 55%",
-          display: "flex",
-          flexDirection: "column",
-          padding: "clamp(18px, 2.8vh, 34px) clamp(18px, 2.8vw, 36px)",
-          position: "relative",
-        }}>
+        <div
+          className="sm:flex-none sm:w-[55%]"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "clamp(18px, 2.8vh, 34px) clamp(18px, 2.8vw, 36px)",
+            position: "relative",
+          }}
+        >
           {/* Ghost index */}
           <div aria-hidden="true" style={{
             position: "absolute", top: "12px", left: "36px",
@@ -144,7 +146,7 @@ function CardItem({
             </h3>
 
             <p style={{
-              fontSize: "clamp(10px, 0.9vw, 12px)", color: "#F1EFE8",
+              fontSize: "clamp(12px, 0.9vw, 14px)", color: "#F1EFE8",
               lineHeight: 1.7, maxWidth: "380px",
               marginBottom: "clamp(12px, 1.6vh, 20px)",
               fontFamily: "var(--font-body)",
@@ -168,13 +170,16 @@ function CardItem({
         </div>
 
         {/* RIGHT: metric */}
-        <div style={{
-          flex: "0 0 45%", display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center",
-          borderLeft: "1px solid rgba(255,255,255,0.05)",
-          background: "rgba(255,255,255,0.015)",
-          position: "relative", overflow: "hidden",
-        }}>
+        <div
+          className="sm:flex-none sm:w-[45%] border-t border-white/5 sm:border-t-0 sm:border-l"
+          style={{
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            background: "rgba(255,255,255,0.015)",
+            position: "relative", overflow: "hidden",
+            minHeight: "120px",
+          }}
+        >
           {/* Orb 1 — large centre */}
           <div aria-hidden="true" style={{
             position: "absolute", width: "280px", height: "280px",

@@ -66,8 +66,12 @@ html {
 body {
   background-color: #0E0E0D;
   color: #F1EFE8;
-  cursor: none;
   overflow-x: clip;
+}
+
+/* Custom cursor only on pointer devices — touch screens use native interaction */
+@media (pointer: fine) {
+  body { cursor: none; }
 }
 
 /* Custom scrollbar */

@@ -35,8 +35,8 @@ export function About() {
   const spotlights = [s1, s2, s3];
 
   return (
-    <section id="about" className="py-[120px] overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-10">
+    <section id="about" className="py-16 lg:py-[120px] overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-5 lg:px-10">
 
         {/* Section label row */}
         <motion.div

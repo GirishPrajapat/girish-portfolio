@@ -43,11 +43,11 @@ const projects = [
   {
     index: "04",
     category: "SOCIAL MEDIA",
-    title: "LinkedIn Poster Agent",
-    subtitle: "Topic input → research → draft → format → schedule. One trigger, zero manual steps.",
-    metric: "6+ hrs",
-    metricLabel: "Saved for Unlimited Content Creation",
-    stack: ["python", "n8n", "Claude API", "Telegram", "Notion"],
+    title: "LinkedIn Content Engine",
+    subtitle: "A multi-agent pipeline: a writer drafts in your voice, a critic scores every post, and a devil's-advocate stress-tests it — you approve via Telegram before anything goes out. It learns from what actually performs.",
+    metric: "20K+",
+    metricLabel: "Impressions Per Post",
+    stack: ["Python", "LangGraph", "Claude API", "Telegram", "Notion"],
   },
   {
     index: "05",
@@ -57,6 +57,24 @@ const projects = [
     metric: "12 calls",
     metricLabel: "Booked in 5 Days",
     stack: ["n8n", "Claude API", "Apollo", "Gmail", "Calendly"],
+  },
+  {
+    index: "06",
+    category: "SAAS PRODUCT",
+    title: "ReplyIQ",
+    subtitle: "A live SaaS that reads every reply to your cold-email campaigns — interested, objection, not now, referral — and surfaces the hot leads instantly so nothing slips through. In production with paying users.",
+    metric: "Live",
+    metricLabel: "Shipped SaaS · Paying Users",
+    stack: ["Next.js", "AWS", "Groq", "Gmail API", "Supabase"],
+  },
+  {
+    index: "07",
+    category: "LEAD GENERATION",
+    title: "Lead Scraper Agent",
+    subtitle: "Finds and enriches qualified leads across the web — company, contact, verified email — and drops them straight into your pipeline, ready for outreach. No manual prospecting.",
+    metric: "Mins",
+    metricLabel: "Lead List Built — Was Hours",
+    stack: ["Python", "Apollo", "SerpAPI", "Notion"],
   },
 ];
 

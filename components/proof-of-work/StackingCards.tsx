@@ -3,10 +3,10 @@
 import { useRef, useState, useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
 
-/* ── Layout constants (ReplyIQ pattern) ── */
+/* ── Layout constants ── */
 const HEADER_H = 160; // px: heading area inside sticky viewport
-const PEEK     = 44;  // px: strip of buried card visible at top
 const CARD_TOP = HEADER_H + 8;
+const BURY_DRIFT = 64; // px an outgoing card drifts up as it fades into the background
 
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
@@ -81,13 +81,14 @@ const projects = [
 function CardItem({
   project,
   i,
-  translateY,
+  state,
 }: {
   project: (typeof projects)[0];
   i: number;
-  translateY: number;
+  state: { y: number; opacity: number; scale: number };
 }) {
   const [hovered, setHovered] = useState(false);
+  const isInteractive = state.opacity > 0.85 && state.y <= 8;
 
   return (
     <div
@@ -100,9 +101,11 @@ function CardItem({
         right:      12,
         height:     `calc(100vh - ${CARD_TOP + 120}px)`,
         zIndex:     i + 1,
-        transform:  `translateY(${translateY}px)`,
-        willChange: "transform",
-        pointerEvents: translateY <= PEEK + 4 ? "auto" : "none",
+        transform:  `translateY(${state.y}px) scale(${state.scale})`,
+        transformOrigin: "center top",
+        opacity:    state.opacity,
+        willChange: "transform, opacity",
+        pointerEvents: isInteractive ? "auto" : "none",
       }}
     >
       {/* Card inner — max-width centred, same visuals as before */}
@@ -256,8 +259,9 @@ export default function StackingCards() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const [yValues, setYValues] = useState<number[]>(
-    projects.map((_, i) => (i === 0 ? 0 : 9999))
+  type CardState = { y: number; opacity: number; scale: number };
+  const [cardStates, setCardStates] = useState<CardState[]>(
+    projects.map((_, i) => ({ y: i === 0 ? 0 : 9999, opacity: 1, scale: 1 }))
   );
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -266,42 +270,48 @@ export default function StackingCards() {
     const onResize = () => { winH = window.innerHeight; };
     window.addEventListener("resize", onResize);
 
-    const OFF = () => winH - CARD_TOP; // translateY that puts card just below viewport
+    const OFF = () => winH - CARD_TOP; // translateY that parks a card just below the viewport
 
     const handleScroll = () => {
       if (!outerRef.current) return;
-      const rect      = outerRef.current.getBoundingClientRect();
-      const totalH    = outerRef.current.offsetHeight;
+      const rect        = outerRef.current.getBoundingClientRect();
+      const totalH      = outerRef.current.offsetHeight;
       const scrollableH = totalH - winH;
-      const scrolled  = -rect.top;
+      const scrolled    = -rect.top;
 
-      if (scrolled < 0) {
-        setYValues(projects.map((_, i) => (i === 0 ? 0 : OFF())));
-        setActiveIndex(0);
-        return;
-      }
-      if (scrolled > scrollableH) {
-        setActiveIndex(projects.length - 1);
-        return;
-      }
+      const progress = scrollableH > 0
+        ? Math.max(0, Math.min(scrolled / scrollableH, 1))
+        : 0;
+      const Nv   = projects.length - 1;
+      const last = projects.length - 1;
 
-      const progress = scrolled / scrollableH;
-      const Nv = projects.length - 1;
+      setActiveIndex(Math.min(Math.floor(progress * projects.length), last));
 
-      setActiveIndex(Math.min(Math.floor(progress * projects.length), projects.length - 1));
-
-      setYValues(
+      setCardStates(
         projects.map((_, i) => {
-          if (i === 0) return 0;
+          const segStart = (i - 1) / Nv; // card i begins rising
+          const segEnd   = i / Nv;       // card i fully in frame
+          const nextEnd  = (i + 1) / Nv; // card i fully buried by card i+1
 
-          const segStart = (i - 1) / Nv;
-          const segEnd   = i / Nv;
+          // 1) below the viewport, waiting its turn
+          if (i !== 0 && progress <= segStart) {
+            return { y: OFF(), opacity: 1, scale: 1 };
+          }
 
-          if (progress <= segStart) return OFF();
-          if (progress >= segEnd)   return i * PEEK;
+          // 2) rising into the frame — fully opaque as it comes up
+          if (i !== 0 && progress < segEnd) {
+            const t = easeOutCubic((progress - segStart) / (segEnd - segStart));
+            return { y: OFF() * (1 - t), opacity: 1, scale: 1 };
+          }
 
-          const t = easeOutCubic((progress - segStart) / (segEnd - segStart));
-          return OFF() + (i * PEEK - OFF()) * t;
+          // 3) settled, then fading into the background as the next card rises over it
+          if (i < last && progress > segEnd) {
+            const b = easeOutCubic(Math.min(1, (progress - segEnd) / (nextEnd - segEnd)));
+            return { y: -b * BURY_DRIFT, opacity: 1 - b, scale: 1 - b * 0.04 };
+          }
+
+          // 4) the active (or final) card, fully in frame
+          return { y: 0, opacity: 1, scale: 1 };
         })
       );
     };
@@ -383,7 +393,7 @@ export default function StackingCards() {
 
         {/* Cards */}
         {projects.map((project, i) => (
-          <CardItem key={project.index} project={project} i={i} translateY={yValues[i]} />
+          <CardItem key={project.index} project={project} i={i} state={cardStates[i]} />
         ))}
 
         {/* Progress dots */}
